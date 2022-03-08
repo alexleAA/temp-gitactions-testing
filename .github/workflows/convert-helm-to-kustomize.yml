@@ -27,8 +27,6 @@ jobs:
       - name: Create directories and copy flies
         run: |
           pwd
-          cd ${{ github.event.inputs.repo }}
-          pwd
           echo 'Creating base and overlays directories for Kustomize'
           mkdir -p kustomize/base
           mkdir -p kustomize/overlays
