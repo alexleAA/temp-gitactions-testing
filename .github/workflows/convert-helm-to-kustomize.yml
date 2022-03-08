@@ -33,15 +33,14 @@ jobs:
           mkdir -p kustomize/overlays
           mkdir -p kustomize/overlays/nonprod
           mkdir -p kustomize/overlays/prod
-          tree -a /home/runner/work/temp-gitactions-testing/temp-gitactions-testing
           cp helm/${{ github.event.inputs.repo }}/templates/deployment.yaml kustomize/base/deployment.yaml
           cp helm/${{ github.event.inputs.repo }}/templates/service.yaml kustomize/base/deployment.yaml
           cp helm/${{ github.event.inputs.repo }}/env/nonprod/values.yaml kustomize/overlays/nonprod/deployment.yaml
           cp helm/${{ github.event.inputs.repo }}/env/prod/values.yaml kustomize/overlays/prod/deployment.yaml
           cp helm/${{ github.event.inputs.repo }}/Chart.yaml kustomize/app.yaml
+          tree -a /home/runner/work/temp-gitactions-testing/temp-gitactions-testing
       - name: Commit updates
         run: |
-          cd ${{ github.event.inputs.repo }}
           git commit -m 'Converted Helm to Kustomize'
           git push
       - name: Create Pull Request
