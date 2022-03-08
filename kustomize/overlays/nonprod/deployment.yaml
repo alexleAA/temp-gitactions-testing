@@ -1,0 +1,26 @@
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+name: temp-gitactions-testing
+image:
+  repository: value
+  pullPolicy: Always
+
+imagePullSecrets:
+  - name: artifactory-docker-secret
+#nameOverride: ""
+#fullnameOverride: ""
+#env:
+#  value: local
+
+service:
+  #type: ClusterIP
+  #type: LoadBalancer
+  port: 9095
+
+requests:
+    cpu: "12m"
+    memory: "128Mi"
+limits:
+    cpu: "400m"
+    memory: "512Mi"
