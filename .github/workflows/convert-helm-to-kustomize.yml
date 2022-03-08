@@ -26,7 +26,9 @@ jobs:
       - uses: actions/checkout@v3
       - name: Create directories and copy flies
         run: |
+          sudo apt install tree 
           pwd
+          tree -a /home/runner/work/temp-gitactions-testing/temp-gitactions-testing
           echo 'Creating base and overlays directories for Kustomize'
           mkdir -p kustomize/base
           mkdir -p kustomize/overlays
