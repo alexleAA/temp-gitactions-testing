@@ -39,7 +39,7 @@ jobs:
           cp helm/${{ github.event.inputs.repo }}/env/prod/values.yaml kustomize/overlays/prod/deployment.yaml
           cp helm/${{ github.event.inputs.repo }}/Chart.yaml kustomize/app.yaml
           
-          sed -i '0,/^appVersion%/d' kustomize/app.yaml
+          sed -i '1,/^appVersion%/d' kustomize/app.yaml
           
           tree -a /home/runner/work/temp-gitactions-testing/temp-gitactions-testing
       - name: Commit updates
@@ -53,7 +53,7 @@ jobs:
         with:
           title: Changes by convert-helm-to-kustomize action
           body: Automated changes to convert the existing Helm directory to a Kustomize friendly setup
-          branch: convert-helm-to-kustomize
+          branch: helm-to-kustomize
           labels: enhancement
       - run: echo "🎉Success! Please go accept the Pull Request to merge your changes here:${{ steps.cpr.outputs.pull-request-url }}☑️"
         
