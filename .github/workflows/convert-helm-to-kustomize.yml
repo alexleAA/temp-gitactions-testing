@@ -42,6 +42,7 @@ jobs:
       - name: Commit updates
         run: |
           git config --global user.name "alexleAA" > /dev/null
+          git add -A
           git commit -m 'Converted Helm to Kustomize'
           git push
       - name: Create Pull Request
