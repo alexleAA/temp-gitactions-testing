@@ -26,6 +26,9 @@ jobs:
       - uses: actions/checkout@v3
       - name: Create directories and copy flies
         run: |
+          pwd
+          cd ${{ github.event.inputs.repo }}
+          pwd
           echo 'Creating base and overlays directories for Kustomize'
           mkdir -p kustomize/base
           mkdir -p kustomize/overlays
@@ -36,5 +39,10 @@ jobs:
           cp /helm/${{ github.event.inputs.repo }}/env/nonprod/values.yaml /kustomize/overlays/nonprod/deployment.yaml
           cp /helm/${{ github.event.inputs.repo }}/env/prod/values.yaml /kustomize/overlays/prod/deployment.yaml
           cp /helm/${{ github.event.inputs.repo }}/Chart.yaml /kustomize/app.yaml
+      - name: Commit updates
+        run: |
+          cd ${{ github.event.inputs.repo }}
+          git commit -m 'Converted Helm to Kustomize'
+          git push
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3.14.0
