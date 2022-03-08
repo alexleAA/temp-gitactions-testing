@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Create directories and copy flies
-      - run: |
+        run: |
           echo 'Creating base and overlays directories for Kustomize'
           mkdir -p kustomize/base
           mkdir -p kustomize/overlays
@@ -37,4 +37,4 @@ jobs:
           cp /helm/${{ github.event.inputs.repo }}/env/prod/values.yaml /kustomize/overlays/prod/deployment.yaml
           cp /helm/${{ github.event.inputs.repo }}/Chart.yaml /kustomize/app.yaml
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v3.14.0
