@@ -6,6 +6,7 @@ on:
       repo:
         type: string
         description: 'Repository Name (ex. cn-feature-duplicatebooking-tm)'
+        default: '${{ github.event.repository.name }}'
         required: true
       ns:
         type: choice
@@ -43,13 +44,24 @@ jobs:
           
           echo "namespace: ${{ github.event.inputs.ns }}" >> kustomize/base/kustomization.yaml
           echo "commonLabels: " >> kustomize/base/kustomization.yaml
-          echo -e "\t\tapp: ${{ github.event.inputs.repo }}" >> kustomize/base/kustomization.yaml
-          echo -e "\t\ttype: service" >> kustomize/base/kustomization.yaml
-          echo -e "\t\tversion: 1.0.0" >> kustomize/base/kustomization.yaml
+          echo -e "  app: ${{ github.event.inputs.repo }}" >> kustomize/base/kustomization.yaml
+          echo -e "  type: service" >> kustomize/base/kustomization.yaml
+          echo -e "  version: 1.0.0" >> kustomize/base/kustomization.yaml
           echo -e "resources: " >> kustomize/base/kustomization.yaml
           echo -e "- deployment.yaml" >> kustomize/base/kustomization.yaml
           echo -e "- service.yaml" >> kustomize/base/kustomization.yaml
           
+          echo "resources:" >> kustomize/overlays/nonprod/kustomization.yaml
+          echo "../../base" >> kustomize/overlays/nonprod/kustomization.yaml
+          echo "patchesStrategicMerge:" >> kustomize/overlays/nonprod/kustomization.yaml
+          echo "- deployment.yaml" >> kustomize/overlays/nonprod/kustomization.yaml
+          
+          echo "resources:" >> kustomize/overlays/nonprod/kustomization.yaml
+          echo "../../base" >> kustomize/overlays/nonprod/kustomization.yaml
+          echo "patchesStrategicMerge:" >> kustomize/overlays/prod/kustomization.yaml
+          echo "- deployment.yaml" >> kustomize/overlays/prod/kustomization.yaml
+          
+          rm -r helm
           tree -a /home/runner/work/temp-gitactions-testing/temp-gitactions-testing
       - name: Commit updates
         run: |
