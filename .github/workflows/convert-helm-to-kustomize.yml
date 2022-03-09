@@ -72,7 +72,7 @@ jobs:
           sed -i '/{{- end }}/d' kustomize/base/deployment.yaml
           sed -i 's/{{- toYaml . | nindent 8 }}/- name: artifactory-docker-secret/g' kustomize/base/deployment.yaml
           sed -i 's/{{ .Chart.Name }}/${{ github.event.inputs.repo }}/g' kustomize/base/deployment.yaml
-          sed -i 's/"{{ .Values.image.repository }}"/packages.aa.com/docker-dev/customer-notifications/${{ github.event.inputs.repo }}:$APPLICATION_VERSION/g' kustomize/base/deployment.yaml
+          sed -i 's|"{{ .Values.image.repository }}"|packages.aa.com/docker-dev/customer-notifications/${{ github.event.inputs.repo }}:$APPLICATION_VERSION|g' kustomize/base/deployment.yaml
           sed -i 's/{{ .Values.image.pullPolicy }}/Always/g' kustomize/base/deployment.yaml
           sed -i '/Probe:/d' kustomize/base/deployment.yaml
           sed -i '/httpGet:/d' kustomize/base/deployment.yaml
