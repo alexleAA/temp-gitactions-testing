@@ -1,23 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name:  {{ include "temp-gitactions-testing.fullname" . }}
-  labels:
-    app: temp-gitactions-testing
-    type: orchestrator
-    version: 1.0.0
+  name:  temp-gitactions-testing
 spec:
-  selector:
     matchLabels:
-      app: temp-gitactions-testing
-      type: orchestrator
-      version: 1.0.0
   template:
     metadata:
-      labels:
-        app: temp-gitactions-testing
-        type: orchestrator
-        version: 1.0.0
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
