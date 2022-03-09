@@ -39,7 +39,16 @@ jobs:
           cp helm/${{ github.event.inputs.repo }}/env/prod/values.yaml kustomize/overlays/prod/deployment.yaml
           cp helm/${{ github.event.inputs.repo }}/Chart.yaml kustomize/app.yaml
           
-          sed -i '1,/^appVersion%/d' kustomize/app.yaml
+          sed -i '/appVersion/,$!d' kustomize/app.yaml
+          
+          echo "namespace: ${{ github.event.inputs.ns }}" >> kustomize/base/kustomization.yaml
+          echo "commonLabels: " >> kustomize/base/kustomization.yaml
+          echo -e "\t\tapp: ${{ github.event.inputs.repo }}" >> kustomize/base/kustomization.yaml
+          echo -e "\t\ttype: service" >> kustomize/base/kustomization.yaml
+          echo -e "\t\tversion: 1.0.0" >> kustomize/base/kustomization.yaml
+          echo -e "resources: " >> kustomize/base/kustomization.yaml
+          echo -e "- deployment.yaml" >> kustomize/base/kustomization.yaml
+          echo -e "- service.yaml" >> kustomize/base/kustomization.yaml
           
           tree -a /home/runner/work/temp-gitactions-testing/temp-gitactions-testing
       - name: Commit updates
