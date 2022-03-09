@@ -118,6 +118,7 @@ jobs:
           sed -i '1s/^/            initialDelaySeconds: 60\n/' kustomize/overlays/nonprod/deployment.yaml
           sed -i '1s/^/            failureThreshold: 5\n/' kustomize/overlays/nonprod/deployment.yaml
           sed -i '1s/^/              port: 9090\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s|^|              path: /actuator/health/readiness\n|' kustomize/overlays/nonprod/deployment.yaml
           
           
           echo "Modifying kustomize/overlays/prod/deployment.yaml"
