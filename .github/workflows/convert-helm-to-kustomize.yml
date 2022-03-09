@@ -72,11 +72,11 @@ jobs:
           sed -i '/{{- end }}/d' kustomize/base/deployment.yaml
           sed -i 's/{{- toYaml . | nindent 8 }}/- name: artifactory-docker-secret/g' kustomize/base/deployment.yaml
           sed -i 's/{{ .Chart.Name }}/${{ github.event.inputs.repo }}/g' kustomize/base/deployment.yaml
-          sed -i 's|"{{ .Values.image.repository }}"|packages.aa.com/docker-dev/customer-notifications/${{ github.event.inputs.repo }}:$APPLICATION_VERSION|g' kustomize/base/deployment.yaml
+          sed -i 's|"{{ .Values.image.repository }}"|packages.aa.com/docker-dev/customer-notifications/${{ github.event.inputs.repo }}:${{ env.APPLICATION_VERSION }}|g' kustomize/base/deployment.yaml
           sed -i 's/{{ .Values.image.pullPolicy }}/Always/g' kustomize/base/deployment.yaml
           sed -i '/Probe:/d' kustomize/base/deployment.yaml
           sed -i '/httpGet:/d' kustomize/base/deployment.yaml
-          sed -i '/path: /actuator/health/d' kustomize/base/deployment.yaml
+          sed -i '|path: /actuator/health|d' kustomize/base/deployment.yaml
           sed -i '/port: 9090/d' kustomize/base/deployment.yaml
           sed -i '/failureThreshold:/d' kustomize/base/deployment.yaml
           sed -i '/initialDelaySeconds:/d' kustomize/base/deployment.yaml
@@ -87,13 +87,13 @@ jobs:
           sed -i '/cpu:/d' kustomize/base/deployment.yaml
           sed -i '/memory:/d' kustomize/base/deployment.yaml
           sed -i '/"SPRING_PROFILES_ACTIVE"/,+4 d' kustomize/base/deployment.yaml
-          echo -e "\\\\\\\\\\volumeMounts:" >> kustomize/base/deployment.yaml
-          echo -e "\\\\\\\\\\\\- name: template-mount" >> kustomize/base/deployment.yaml
-          echo -e "\\\\\\\\\\\\\\mountPath: /mnt/azure/" >> kustomize/base/deployment.yaml
-          echo -e "\\\\\\volumes:" >> kustomize/base/deployment.yaml
-          echo -e "\\\\\\\\- name: template-mount" >> kustomize/base/deployment.yaml
-          echo -e "\\\\\\\\\\persistentVolumeClaim:" >> kustomize/base/deployment.yaml
-          echo -e "\\\\\\\\\\\\claimName: cn-template-storage-pvc" >> kustomize/base/deployment.yaml
+          echo -e "          volumeMounts:" >> kustomize/base/deployment.yaml
+          echo -e "            - name: template-mount" >> kustomize/base/deployment.yaml
+          echo -e "              mountPath: /mnt/azure/" >> kustomize/base/deployment.yaml
+          echo -e "      volumes:" >> kustomize/base/deployment.yaml
+          echo -e "        - name: template-mount" >> kustomize/base/deployment.yaml
+          echo -e "          persistentVolumeClaim:" >> kustomize/base/deployment.yaml
+          echo -e "            claimName: cn-template-storage-pvc" >> kustomize/base/deployment.yaml
           
           rm -r helm
           tree -a /home/runner/work/temp-gitactions-testing/temp-gitactions-testing
