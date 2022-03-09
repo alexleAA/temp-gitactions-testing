@@ -6,6 +6,7 @@ on:
       repo:
         type: string
         description: 'Repository Name (ex. cn-feature-duplicatebooking-tm)'
+        default: 'temp-gitactions-testing'
         required: true
       ns:
         type: choice
