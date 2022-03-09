@@ -76,7 +76,7 @@ jobs:
           sed -i 's/{{ .Values.image.pullPolicy }}/Always/g' kustomize/base/deployment.yaml
           sed -i '/Probe:/d' kustomize/base/deployment.yaml
           sed -i '/httpGet:/d' kustomize/base/deployment.yaml
-          sed -i '|path: /actuator/health|d' kustomize/base/deployment.yaml
+          sed -i '\|path: /actuator/health|d' kustomize/base/deployment.yaml
           sed -i '/port: 9090/d' kustomize/base/deployment.yaml
           sed -i '/failureThreshold:/d' kustomize/base/deployment.yaml
           sed -i '/initialDelaySeconds:/d' kustomize/base/deployment.yaml
