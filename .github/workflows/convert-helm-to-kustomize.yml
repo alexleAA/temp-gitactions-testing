@@ -26,6 +26,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Create directories and copy flies
         run: |
+          echo "APPLICATION_VERSION=$(cat helm/${{ github.event.inputs.repo }}/Chart.yaml | grep -i appversion|cut -d ' ' -f2)" >> $GITHUB_ENV
           sudo apt install tree 
           pwd
           echo 'Creating base and overlays directories for Kustomize'
@@ -62,11 +63,37 @@ jobs:
           
           sed -i 's/{{ include "${{ github.event.inputs.repo }}.fullname" . }}/${{ github.event.inputs.repo }}/g' kustomize/base/deployment.yaml
           sed -i '/labels:/d' kustomize/base/deployment.yaml
+          sed -i '/matchLabels:/d' kustomize/base/deployment.yaml
           sed -i '/selector:/d' kustomize/base/deployment.yaml
           sed -i '/app: ${{ github.event.inputs.repo }}/d' kustomize/base/deployment.yaml
           sed -i '/type: orchestrator/d' kustomize/base/deployment.yaml
           sed -i '/version: 1.0.0/d' kustomize/base/deployment.yaml
-          
+          sed -i '/{{- with .Values.imagePullSecrets }}/d' kustomize/base/deployment.yaml
+          sed -i '/{{- end }}/d' kustomize/base/deployment.yaml
+          sed -i 's/{{- toYaml . | nindent 8 }}/- name: artifactory-docker-secret/g' kustomize/base/deployment.yaml
+          sed -i 's/{{ .Chart.Name }}/${{ github.event.inputs.repo }}/g' kustomize/base/deployment.yaml
+          sed -i 's/"{{ .Values.image.repository }}"/packages.aa.com/docker-dev/customer-notifications/${{ github.event.inputs.repo }}:$APPLICATION_VERSION/g' kustomize/base/deployment.yaml
+          sed -i 's/{{ .Values.image.pullPolicy }}/Always/g' kustomize/base/deployment.yaml
+          sed -i '/Probe:/d' kustomize/base/deployment.yaml
+          sed -i '/httpGet:/d' kustomize/base/deployment.yaml
+          sed -i '/path: /actuator/health/d' kustomize/base/deployment.yaml
+          sed -i '/port: 9090/d' kustomize/base/deployment.yaml
+          sed -i '/failureThreshold:/d' kustomize/base/deployment.yaml
+          sed -i '/initialDelaySeconds:/d' kustomize/base/deployment.yaml
+          sed -i '/periodSeconds:/d' kustomize/base/deployment.yaml
+          sed -i '/resources:/d' kustomize/base/deployment.yaml
+          sed -i '/requests:/d' kustomize/base/deployment.yaml
+          sed -i '/limits:/d' kustomize/base/deployment.yaml
+          sed -i '/cpu:/d' kustomize/base/deployment.yaml
+          sed -i '/memory:/d' kustomize/base/deployment.yaml
+          sed -i '/"SPRING_PROFILES_ACTIVE"/,+4 d' kustomize/base/deployment.yaml
+          echo -e "\\\\\\\\\\volumeMounts:" >> kustomize/base/deployment.yaml
+          echo -e "\\\\\\\\\\\\- name: template-mount" >> kustomize/base/deployment.yaml
+          echo -e "\\\\\\\\\\\\\\mountPath: /mnt/azure/" >> kustomize/base/deployment.yaml
+          echo -e "\\\\\\volumes:" >> kustomize/base/deployment.yaml
+          echo -e "\\\\\\\\- name: template-mount" >> kustomize/base/deployment.yaml
+          echo -e "\\\\\\\\\\persistentVolumeClaim:" >> kustomize/base/deployment.yaml
+          echo -e "\\\\\\\\\\\\claimName: cn-template-storage-pvc" >> kustomize/base/deployment.yaml
           
           rm -r helm
           tree -a /home/runner/work/temp-gitactions-testing/temp-gitactions-testing
