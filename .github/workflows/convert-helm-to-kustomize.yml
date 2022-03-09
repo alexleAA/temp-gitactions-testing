@@ -108,10 +108,10 @@ jobs:
           sed -i '/targetPort:/d' kustomize/base/service.yaml
           
           echo "Modifying kustomize/overlays/nonprod/deployment.yaml"
-          sed -n '/requests:/,$p' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '/requests:/,$!d' kustomize/overlays/nonprod/deployment.yaml
           
           echo "Modifying kustomize/overlays/prod/deployment.yaml"
-          sed -n '/limits:/,$p' kustomize/overlays/prod/deployment.yaml
+          sed -i '/limits:/,$!d' kustomize/overlays/prod/deployment.yaml
           
           echo "Removing helm folder"
           rm -r helm
