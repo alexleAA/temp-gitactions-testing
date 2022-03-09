@@ -6,7 +6,6 @@ on:
       repo:
         type: string
         description: 'Repository Name (ex. cn-feature-duplicatebooking-tm)'
-        default: '${{ github.event.repository.name }}'
         required: true
       ns:
         type: choice
