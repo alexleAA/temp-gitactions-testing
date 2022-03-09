@@ -137,7 +137,7 @@ jobs:
           sed -i '1s/^/  name: ${{ github.event.inputs.repo }}\n/' kustomize/overlays/nonprod/deployment.yaml
           sed -i '1s/^/metadata:\n/' kustomize/overlays/nonprod/deployment.yaml
           sed -i '1s/^/kind: Deployment\n/' kustomize/overlays/nonprod/deployment.yaml
-          sed -i '1s/^/apiVersion: apps/v1\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s|^|apiVersion: apps/v1\n|' kustomize/overlays/nonprod/deployment.yaml
           
           echo "Modifying kustomize/overlays/prod/deployment.yaml"
           sed -i '/limits:/,$!d' kustomize/overlays/prod/deployment.yaml
