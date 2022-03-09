@@ -109,9 +109,40 @@ jobs:
           
           echo "Modifying kustomize/overlays/nonprod/deployment.yaml"
           sed -i '/requests:/,$!d' kustomize/overlays/nonprod/deployment.yaml
+          sed -i -e 's/^/            /' kustomize/overlays/nonprod/deployment.yaml
+          echo -e "          env:" >> kustomize/overlays/nonprod/deployment.yaml
+          echo -e "            - name: \"SPRING_PROFILES_ACTIVE\"" >> kustomize/overlays/nonprod/deployment.yaml
+          echo -e "              value: \"nonprod\"" >> kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/          resources:\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/            periodSeconds: 30\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/            initialDelaySeconds: 60\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/            failureThreshold: 5\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/              port: 9090\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s|^|              path: /actuator/health/readiness\n|' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/            httpGet:\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/          readinessProbe:\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/            periodSeconds: 30\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/            initialDelaySeconds: 60\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/            failureThreshold: 5\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/              port: 9090\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s|^|              path: /actuator/health/liveness\n|' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/            httpGet:\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/          livenessProbe:\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/        - name: ${{ github.event.inputs.repo }}\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/      containers:\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/    spec:\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/  template:\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/  replicas: 1\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/spec:\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/  name: ${{ github.event.inputs.repo }}\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/metadata:\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/kind: Deployment\n/' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s/^/apiVersion: apps/v1\n/' kustomize/overlays/nonprod/deployment.yaml
           
           echo "Modifying kustomize/overlays/prod/deployment.yaml"
           sed -i '/limits:/,$!d' kustomize/overlays/prod/deployment.yaml
+          sed -i -e 's/^/            /' kustomize/overlays/prod/deployment.yaml
+           
           
           echo "Removing helm folder"
           rm -r helm
