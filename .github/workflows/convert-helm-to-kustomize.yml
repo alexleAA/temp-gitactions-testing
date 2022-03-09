@@ -25,9 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Create directories and copy flies
+      - name: 🗃Create directories and copy flies
         run: |
-          sudo apt install tree 
           echo 'Creating base and overlays directories for Kustomize'
           mkdir -p kustomize/base
           mkdir -p kustomize/overlays
@@ -173,19 +172,18 @@ jobs:
           
           echo "Removing helm folder"
           rm -r helm
-          tree -a /home/runner/work/temp-gitactions-testing/temp-gitactions-testing
-      - name: Commit updates
+      - name: 📝Commit updates
         run: |
           git config --global user.name "alexleAA" > /dev/null
           git add -A
           git commit -m 'Converted Helm to Kustomize'
-      - name: Create Pull Request
+      - name: 🔨Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v3.14.0
         with:
           title: Changes by convert-helm-to-kustomize action
           body: Automated changes to convert the existing Helm directory to a Kustomize friendly setup
           branch: helm-to-kustomize
-          labels: enhancement
+          labels: enhancement,platform
       - run: echo "🎉Success! ☑️Please go accept the Pull Request to merge your changes here:${{ steps.cpr.outputs.pull-request-url }}"
         
