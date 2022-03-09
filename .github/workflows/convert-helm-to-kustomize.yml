@@ -118,14 +118,14 @@ jobs:
           sed -i '1s/^/            initialDelaySeconds: 60\n/' kustomize/overlays/nonprod/deployment.yaml
           sed -i '1s/^/            failureThreshold: 5\n/' kustomize/overlays/nonprod/deployment.yaml
           sed -i '1s/^/              port: 9090\n/' kustomize/overlays/nonprod/deployment.yaml
-          sed -i '1s|^/              path: /actuator/health/readiness\n|' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s|^|              path: /actuator/health/readiness\n|' kustomize/overlays/nonprod/deployment.yaml
           sed -i '1s/^/            httpGet:\n/' kustomize/overlays/nonprod/deployment.yaml
           sed -i '1s/^/          readinessProbe:\n/' kustomize/overlays/nonprod/deployment.yaml
           sed -i '1s/^/            periodSeconds: 30\n/' kustomize/overlays/nonprod/deployment.yaml
           sed -i '1s/^/            initialDelaySeconds: 60\n/' kustomize/overlays/nonprod/deployment.yaml
           sed -i '1s/^/            failureThreshold: 5\n/' kustomize/overlays/nonprod/deployment.yaml
           sed -i '1s/^/              port: 9090\n/' kustomize/overlays/nonprod/deployment.yaml
-          sed -i '1s|^/              path: /actuator/health/liveness\n|' kustomize/overlays/nonprod/deployment.yaml
+          sed -i '1s|^|              path: /actuator/health/liveness\n|' kustomize/overlays/nonprod/deployment.yaml
           sed -i '1s/^/            httpGet:\n/' kustomize/overlays/nonprod/deployment.yaml
           sed -i '1s/^/          livenessProbe:\n/' kustomize/overlays/nonprod/deployment.yaml
           sed -i '1s/^/        - name: ${{ github.event.inputs.repo }}\n/' kustomize/overlays/nonprod/deployment.yaml
