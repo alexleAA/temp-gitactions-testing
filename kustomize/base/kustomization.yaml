@@ -1,0 +1,8 @@
+namespace: test-feature-ns
+commonLabels: 
+  app: temp-gitactions-testing
+  type: service
+  version: 1.0.0
+resources: 
+- deployment.yaml
+- service.yaml

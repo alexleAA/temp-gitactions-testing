@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  temp-gitactions-testing
+spec:
+  template:
+    metadata:
+    spec:
+      imagePullSecrets:
+        - name: artifactory-docker-secret
+      containers:
+        - name: temp-gitactions-testing
+          image: packages.aa.com/docker-dev/customer-notifications/temp-gitactions-testing:$APPLICATION_VERSION
+          imagePullPolicy: Always
+              path: /actuator/health/liveness
+ctuator/health/d
+              path: /actuator/health/readiness
+ctuator/health/d
+          ports:
+            - name: actuator
+              containerPort: 9090
+              protocol: TCP
+            - name: http
+              containerPort: 9095
+              protocol: TCP
+          env:
+            - name: kv-client-id
+              valueFrom:
+                secretKeyRef:
+                  name: test-kv-secret
+                  key: kv-client-id
+            - name: kv-client-key
+              valueFrom:
+                secretKeyRef:
+                  name: test-kv-secret
+                  key: kv-client-key
+            - name: kv-tenant-id
+              valueFrom:
+                secretKeyRef:
+                  name: test-kv-secret
+                  key: kv-tenant-id
+            - name: kv-uri
+              valueFrom:
+                secretKeyRef:
+                  name: test-kv-secret
+                  key: kv-uri
+\\olumeMounts:
+\\\- name: template-mount
+\\\\mountPath: /mnt/azure/
+\olumes:
+\\- name: template-mount
+\\\persistentVolumeClaim:
+\\\claimName: cn-template-storage-pvc
