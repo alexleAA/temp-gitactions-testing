@@ -110,5 +110,5 @@ jobs:
           body: Automated changes to convert the existing Helm directory to a Kustomize friendly setup
           branch: helm-to-kustomize
           labels: enhancement
-      - run: echo "🎉Success! Please go accept the Pull Request to merge your changes here:${{ steps.cpr.outputs.pull-request-url }}☑️"
+      - run: echo "🎉Success! ☑️Please go accept the Pull Request to merge your changes here:${{ steps.cpr.outputs.pull-request-url }}"
         
